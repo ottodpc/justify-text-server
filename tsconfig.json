@@ -12,6 +12,8 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
+    "sourceMap": false,
+    "declaration": true,
     "baseUrl": "."
   },
   "include": ["**/*.ts"],

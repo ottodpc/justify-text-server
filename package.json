@@ -2,7 +2,12 @@
   "name": "justify-text-server",
   "version": "1.0.0",
   "description": "",
+  "main": "./build/index.js",
+  "types": "./build/index.d.ts",
   "license": "ISC",
+  "files": [
+    "build/**/*"
+  ], 
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ottodpc/justify-text-server.git"
@@ -22,7 +27,7 @@
     "build:dev": "rm -rf ./build && mkdir build && tsc -w",
     "rmtcacge": "rm -rf .ts-node && rm -rf ~/.ts-node && tsc --no-cache",
     "start": "nodemon build/index.js",
-    "watch": "npm cache clean --force && nodemon src/index.ts  --no-cache",
+    "watch": "nodemon src/index.ts  --no-cache",
     "restart": "npm cache clean --force && npm start --reset-cache",
     "clean": "rm -rf node_modules && npm cache clean --force && yarn clean cache --force",
     "test": "echo \"Error: no test specified\" && exit 1"

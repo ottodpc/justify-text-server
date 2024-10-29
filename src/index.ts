@@ -1,167 +1,82 @@
-import {
-  Router,
-  Application,
-  json,
-  urlencoded,
-  Response,
-  Request,
-} from "express";
-import http from "http";
-import cors from "cors";
-import helmet from "helmet";
-import hpp from "hpp";
-import compression from "compression";
+import "es6-shim";
+import "reflect-metadata";
+import "dotenv/config";
+import express, { Express, Router } from "express";
 import Logger from "bunyan";
-import "express-async-errors";
-import bodyParser from "body-parser";
-import nocache from "nocache";
-import rateLimit from "express-rate-limit";
-import connectTimeout from "connect-timeout";
-import session from "express-session";
-import lusca from "lusca";
-import * as expressValidator from "express-validator";
-import * as useragent from "express-useragent";
-import morgan from "morgan";
 
 import { LogSergice } from "./Logs";
+import Server from "./server";
 import RouterSetting from "./Settings/index";
-import { CustomError } from "./Helpers/index";
 
-class Server {
-  private app: Application;
-  routerInstance: Router;
-  log: Logger;
+class Application {
+  private static _instance: Application;
+  static log: Logger = LogSergice.createLogger("Application");
 
-  constructor(app: Application) {
-    this.log = LogSergice.createLogger("Server");
-    this.app = app;
-    this.routerInstance = RouterSetting.getInstance();
-  }
-  public start(): void {
-    this.securityMiddleware(this.app);
-    this.standardMiddleware(this.app);
-    this.routesMiddleware(this.app);
-    this.globalErrorHandler(this.app);
-    this.startServer(this.app);
-  }
-  private securityMiddleware(app: Application): void {
-    app.use(nocache());
-    app.use(helmet());
-    app.enable("trust proxy");
-    app.set("trust proxy", 1);
-    app.use(hpp());
-    app.use(helmet());
-
-    const allowedOrigins = ["*"];
-
-    app.use(
-      cors({
-        origin: function (origin, callback) {
-          if (!origin) return callback(null, true);
-          if (allowedOrigins.indexOf(origin) === -1) {
-            const msg =
-              "The CORS policy for this site does not allow access from the specified Origin.";
-            return callback(new Error(msg), false);
-          }
-          return callback(null, true);
-        },
-        credentials: true,
-        optionsSuccessStatus: 200,
-        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-      })
-    );
-
-    app.use(
-      rateLimit({
-        windowMs: 15 * 60 * 1000,
-        max: 100,
-      })
-    );
-
-    app.use(
-      session({
-        secret: "",
-        resave: false,
-        saveUninitialized: false,
-        cookie: { secure: true },
-      })
-    );
-
-    app.use(lusca.xframe("SAMEORIGIN"));
-    app.use(lusca.hsts({ maxAge: 31536000 }));
-    app.use(lusca.xssProtection(true));
-    app.use(lusca.nosniff());
-    app.use(lusca.referrerPolicy("same-origin"));
-
-    app.use(connectTimeout("15s"));
-
-    app.use(useragent.express());
-  }
-
-  private standardMiddleware(app: Application): void {
-    app.use(compression({}));
-    app.use(morgan("dev"));
-    const payloadMaxSize = "10kb";
-
-    app.use(json({ limit: payloadMaxSize }));
-    app.use(
-      urlencoded({
-        extended: true,
-        limit: payloadMaxSize,
-      })
-    );
-
-    app.use(
-      bodyParser.json({
-        limit: payloadMaxSize,
-      })
-    );
-    app.use(
-      bodyParser.urlencoded({
-        extended: true,
-        limit: payloadMaxSize,
-        parameterLimit: 100000000,
-      })
-    );
-    app.use(expressValidator.body());
-  }
-
-  private routesMiddleware(app: Application): void {
-    app.use(this.routerInstance);
-  }
-
-  private globalErrorHandler(app: Application): void {
-    app.all("*", (req: Request, res: Response) => {
-      res
-        .status(404)
-        .json({ message: `${req.originalUrl} We are sorry, just not found!` });
-    });
-
-    app.use((error: any, _req: any, res: any, next: any) => {
-      this.log.error(error);
-      if (error instanceof CustomError) {
-        return res.status(error.statusCode).json(error.serializeErrors());
-      }
-      next();
-    });
-  }
-
-  private async startServer(app: Application): Promise<void> {
-    if (process.env.SECRET_KEY === undefined) {
-      throw new Error("JWT TOKEN must be provided");
+  private constructor() {
+    if (Application._instance) {
+      throw new Error("🛑 Application already exists");
+    } else {
+      Application._instance = this;
     }
-    try {
-      const httpServer: http.Server = new http.Server(app);
+  }
+  public static getInstance({
+    routerInstance,
+  }: {
+    routerInstance: Router;
+  }): Application {
+    if (!Application._instance) {
+      Application._instance = new Application();
+    }
+    return Application._instance;
+  }
 
-      this.log.info(`Worker with process id of ${process.pid} has started...`);
-      this.log.info(`Server has started with process ${process.pid}`);
-      httpServer.listen(process.env.PORT ?? 80, () => {
-        this.log.info(`Server running on port ${process.env.PORT ?? 80}`);
+  public init(): void {
+    const app: Express = express();
+
+    const server: Server = new Server(app);
+    server.start();
+    Application.handleExit();
+  }
+
+  private static handleExit(): void {
+    process.on("uncaughtException", (error: Error) => {
+      this.log.error(`🛑 There was an uncaught error: ${error}`);
+      Application.shutDownProperly(1);
+    });
+
+    process.on("unhandleRejection", (reason: Error) => {
+      this.log.error(`🛑 Unhandled rejection at promise: ${reason}`);
+      Application.shutDownProperly(2);
+    });
+
+    process.on("SIGTERM", () => {
+      this.log.error("🛑 Caught SIGTERM");
+      Application.shutDownProperly(2);
+    });
+
+    process.on("SIGINT", () => {
+      this.log.error("🛑 Caught SIGINT");
+      Application.shutDownProperly(2);
+    });
+
+    process.on("exit", () => {
+      this.log.error("🛑 Exiting");
+    });
+  }
+
+  private static shutDownProperly(exitCode: number): void {
+    Promise.resolve()
+      .then(() => {
+        this.log.info("🛑 Shutdown complete");
+        process.exit(exitCode);
+      })
+      .catch((error) => {
+        this.log.error(`🛑 Error during shutdown: ${error}`);
+        process.exit(1);
       });
-    } catch (error) {
-      this.log.error(error);
-    }
   }
 }
 
-export default Server;
+Application.getInstance({
+  routerInstance: RouterSetting.getInstance(),
+}).init();
