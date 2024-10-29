@@ -6,7 +6,6 @@ import {
   Response,
   Request,
 } from "express";
-import http from "http";
 import cors from "cors";
 import helmet from "helmet";
 import hpp from "hpp";
@@ -29,15 +28,23 @@ import RouterSetting from "./Settings/index";
 import { CustomError } from "./Helpers/index";
 
 class Server {
-  private app: Application;
+  private _app: Application;
+  public get app(): Application {
+    return this._app;
+  }
+  public set app(value: Application) {
+    this._app = value;
+  }
+
   routerInstance: Router;
   log: Logger;
 
   constructor(app: Application) {
     this.log = LogSergice.createLogger("Server");
-    this.app = app;
+    this._app = app;
     this.routerInstance = RouterSetting.getInstance();
   }
+
   public start(): void {
     this.securityMiddleware(this.app);
     this.standardMiddleware(this.app);
@@ -45,6 +52,7 @@ class Server {
     this.globalErrorHandler(this.app);
     this.startServer(this.app);
   }
+
   private securityMiddleware(app: Application): void {
     app.use(nocache());
     app.use(helmet());
@@ -150,13 +158,11 @@ class Server {
       throw new Error("SESSION SECRET must be provided");
     }
     try {
-      const httpServer: http.Server = new http.Server(app);
-
       this.log.info(
         `🚀 Worker with process id of ${process.pid} has started... 🚀`
       );
       this.log.info(`✨ Server has started with process ${process.pid}`);
-      httpServer.listen(process.env.PORT ?? 80, () => {
+      app.listen(process.env.PORT ?? 80, () => {
         this.log.info(`✅ Server running on port ${process.env.PORT ?? 80}`);
       });
     } catch (error) {

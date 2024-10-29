@@ -7,7 +7,7 @@
   "license": "ISC",
   "files": [
     "build/**/*"
-  ], 
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ottodpc/justify-text-server.git"
@@ -30,7 +30,7 @@
     "watch": "nodemon src/index.ts  --no-cache",
     "restart": "npm cache clean --force && npm start --reset-cache",
     "clean": "rm -rf node_modules && npm cache clean --force && yarn clean cache --force",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "dependencies": {
     "body-parser": "^1.20.3",
@@ -72,13 +72,18 @@
     "@types/express-useragent": "^1.0.5",
     "@types/hpp": "^0.2.6",
     "@types/http-status-codes": "^1.2.0",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/lusca": "^1.7.5",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.8.2",
     "@types/nodemon": "^1.19.6",
+    "@types/supertest": "^6.0.2",
     "@types/validator": "^13.12.2",
     "del-cli": "^5.1.0",
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.6.3",
     "typescript-transform-paths": "^3.4.6"

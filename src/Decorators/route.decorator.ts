@@ -9,9 +9,7 @@ interface RouteHandlerDescriptor extends PropertyDescriptor {
 function routeFunction(method: string) {
   return function (path: string) {
     return function (target: any, key: string, desc: RouteHandlerDescriptor) {
-      // NOTE define PATH
       Reflect.defineMetadata(MetadataKeys.path, path, target, key);
-      // NOTE define METHOD
       Reflect.defineMetadata(MetadataKeys.method, method, target, key);
     };
   };
