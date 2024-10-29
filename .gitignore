@@ -5,9 +5,6 @@
 .idea
 .kpt-pipeline
 
-# testing
-/coverage
-
 /.next/
 /out/
 /dist

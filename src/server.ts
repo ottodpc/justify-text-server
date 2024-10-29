@@ -26,6 +26,7 @@ import HTTP_STATUS from "http-status-codes";
 import { LogSergice } from "./Logs";
 import RouterSetting from "./Settings/index";
 import { CustomError } from "./Helpers/index";
+import express from "express";
 
 class Server {
   private _app: Application;
@@ -128,6 +129,7 @@ class Server {
       })
     );
     app.use(expressValidator.body());
+    app.use(express.text());
   }
 
   private routesMiddleware(app: Application): void {
