@@ -1,4 +1,23 @@
+import "reflect-metadata";
 import HTTP_STATUS from "http-status-codes";
+import { MetadataKeys } from "../Interfaces/index";
+
+export const getMetadata = (
+  metadataKeys: MetadataKeys,
+  target: any,
+  key: any
+) => {
+  return Reflect.getMetadata(metadataKeys, target, key);
+};
+
+export const defineMetadata = (
+  metadataKeys: MetadataKeys,
+  metadataValue: any,
+  target: any,
+  key: any
+) => {
+  return Reflect.defineMetadata(metadataKeys, metadataValue, target, key);
+};
 
 export interface IErrorResponse {
   message: string;
