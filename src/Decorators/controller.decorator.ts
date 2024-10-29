@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { BodyValidators } from ".";
+import { BodyValidators } from "./body-validator.decorator";
 import RouterSetting from "../Settings/index";
 import { MetadataKeys, MethodHttp } from "../Interfaces/index";
 

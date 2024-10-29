@@ -81,7 +81,7 @@ class Server {
 
     app.use(
       session({
-        secret: "",
+        secret: String(process.env.SESSION_SECRET),
         resave: false,
         saveUninitialized: false,
         cookie: { secure: true },
@@ -145,6 +145,9 @@ class Server {
   private async startServer(app: Application): Promise<void> {
     if (process.env.SECRET_KEY === undefined) {
       throw new Error("JWT TOKEN must be provided");
+    }
+    if (process.env.SESSION_SECRET === undefined) {
+      throw new Error("SESSION SECRET must be provided");
     }
     try {
       const httpServer: http.Server = new http.Server(app);

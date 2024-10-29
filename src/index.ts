@@ -7,6 +7,7 @@ import Logger from "bunyan";
 import { LogSergice } from "./Logs";
 import Server from "./server";
 import RouterSetting from "./Settings/index";
+import AppplicationController from "./Controllers";
 
 class Application {
   private static _instance: Application;
@@ -76,6 +77,8 @@ class Application {
       });
   }
 }
+
+AppplicationController.getInstance();
 
 Application.getInstance({
   routerInstance: RouterSetting.getInstance(),
