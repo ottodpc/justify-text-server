@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="%F0%9F%93%9C-justification-api">📜 Justification API</h1>
+<blockquote>
+<p><strong>Remarque :</strong> Ce projet a été conçu avec une approche modulaire. Consultez le dossier <code>img</code> pour des exemples de requêtes et de réponses dans Postman.</p>
+</blockquote>
+<p><strong>Justification API</strong> est une <strong>API RESTful</strong> construite avec <strong>Node.js</strong> et <strong>TypeScript</strong>, dédiée à la justification de texte en ligne de 80 caractères. Ce projet intègre des concepts avancés tels que l'authentification par token, la gestion de la limite de mots quotidienne par utilisateur et des pratiques de <strong>Programmation Orientée Objet (OOP)</strong> avec l'utilisation de <strong>décorateurs</strong> pour une architecture plus maintenable et modulable.</p>
+<p><img src="./img/justify/POSTMAN.png" alt="Justification API Banner"></p>
+<hr>
+<h2 id="%F0%9F%93%8B-table-des-mati%C3%A8res">📋 Table des matières</h2>
+<ul>
+<li><a href="#pr%C3%A9requis">📋 Prérequis</a></li>
+<li><a href="#installation">📦 Installation</a></li>
+<li><a href="#configuration">⚙️ Configuration</a></li>
+<li><a href="#utilisation">🚀 Utilisation</a></li>
+<li><a href="#endpoints">📚 Endpoints</a>
+<ul>
+<li><a href="#api-token">🔐 /api/token</a></li>
+<li><a href="#api-justify">📏 /api/justify</a></li>
+</ul>
+</li>
+<li><a href="#d%C3%A9tails-de-justification">🛠️ Détails de Justification</a></li>
+<li><a href="#technologies-utilis%C3%A9es">⚙️ Technologies Utilisées</a></li>
+<li><a href="#structure-du-projet-et-concepts-avanc%C3%A9s">🏗️ Structure du Projet et Concepts Avancés</a></li>
+<li><a href="#exemple-dutilisation">📸 Exemple d'utilisation</a></li>
+</ul>
+<hr>
+<h3 id="%F0%9F%93%8B-pr%C3%A9requis">📋 Prérequis</h3>
+<ul>
+<li><strong>Node.js</strong> : <a href="https://nodejs.org/">v22.1.0</a> ou supérieur</li>
+<li><strong>Yarn</strong> : <a href="https://yarnpkg.com/">v1.22.22</a> ou supérieur</li>
+<li><strong>Git</strong> : <a href="https://git-scm.com/">v2.40.1</a> ou supérieur</li>
+</ul>
+<p>Le code source est disponible sur GitHub : <a href="https://github.com/ottodpc/justify-text-server">https://github.com/ottodpc/justify-text-server</a></p>
+<hr>
+<h3 id="%F0%9F%93%A6-installation">📦 Installation</h3>
+<ol>
+<li>
+<p><strong>Cloner le dépôt :</strong></p>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/ottodpc/justify-text-server.git
+<span class="hljs-built_in">cd</span> justify-text-server
+</div></code></pre>
+</li>
+<li>
+<p><strong>Installer les dépendances :</strong></p>
+<pre class="hljs"><code><div>yarn install
+</div></code></pre>
+</li>
+<li>
+<p><strong>Compiler le code TypeScript :</strong></p>
+<pre class="hljs"><code><div>yarn build
+</div></code></pre>
+</li>
+<li>
+<p><strong>Démarrer le serveur :</strong></p>
+<pre class="hljs"><code><div>yarn start
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<h3 id="%E2%9A%99%EF%B8%8F-configuration">⚙️ Configuration</h3>
+<ol>
+<li><strong>Créer le fichier <code>.env</code></strong> en utilisant le modèle <code>.env.example</code> :<pre class="hljs"><code><div>cp .env.example .env
+</div></code></pre>
+</li>
+<li><strong>Configurer la clé secrète</strong> dans le fichier <code>.env</code> pour le token JWT :<pre class="hljs"><code><div>SECRET_KEY=&quot;VOTRE_SECRET_KEY&quot;
+</div></code></pre>
+</li>
+</ol>
+<hr>
+<h3 id="%F0%9F%9A%80-utilisation">🚀 Utilisation</h3>
+<p>L'API offre deux principaux endpoints :</p>
+<ul>
+<li><code>/api/token</code> : Pour obtenir un token d’authentification.</li>
+<li><code>/api/justify</code> : Pour justifier un texte avec des lignes de 80 caractères.</li>
+</ul>
+<p>Le dossier <code>img</code> contient des captures d'écran illustrant les tests Postman et le terminal lors des requêtes :</p>
+<p><img src="./img/justify/TERMINAL.png" alt="Terminal Output">
+<img src="./img/justify/POSTMAN.png" alt="Postman Example"></p>
+<hr>
+<h3 id="%F0%9F%93%9A-endpoints">📚 Endpoints</h3>
+<h4 id="%F0%9F%94%90-apitoken">🔐 <strong>/api/token</strong></h4>
+<ul>
+<li><strong>Description</strong> : Retourne un token JWT pour l'utilisateur.</li>
+<li><strong>Méthode</strong> : <code>POST</code></li>
+<li><strong>Content-Type</strong> : <code>application/json</code></li>
+<li><strong>Corps de la requête</strong> :<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"email"</span>: <span class="hljs-string">"foo@bar.com"</span>
+}
+</div></code></pre>
+</li>
+<li><strong>Réponse</strong> :<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"token"</span>: <span class="hljs-string">"TOKEN"</span>
+}
+</div></code></pre>
+</li>
+</ul>
+<h4 id="%F0%9F%93%8F-apijustify">📏 <strong>/api/justify</strong></h4>
+<ul>
+<li><strong>Description</strong> : Justifie un texte envoyé dans le corps de la requête, avec une limite de ligne de 80 caractères.</li>
+<li><strong>Méthode</strong> : <code>POST</code></li>
+<li><strong>Content-Type</strong> : <code>text/plain</code></li>
+<li><strong>Headers</strong> :
+<ul>
+<li><code>Authorization: Bearer &lt;votre_token&gt;</code></li>
+</ul>
+</li>
+<li><strong>Corps de la requête</strong> : Texte brut.</li>
+<li><strong>Réponse</strong> :
+<ul>
+<li><strong>Code 200</strong> : Texte justifié avec lignes de 80 caractères.</li>
+<li><strong>Code 402</strong> : Limite quotidienne de mots atteinte.</li>
+<li><strong>Code 403</strong> : Token non fourni.</li>
+</ul>
+</li>
+</ul>
+<p>Exemple de requête Postman :
+<img src="./img/token/POSTMAN.png" alt="Postman Token Request"></p>
+<hr>
+<h3 id="%F0%9F%9B%A0%EF%B8%8F-d%C3%A9tails-de-justification">🛠️ Détails de Justification</h3>
+<p>Le texte est justifié sans l'utilisation de bibliothèques externes pour la mise en forme. Les mots sont répartis uniformément sur des lignes de 80 caractères, ajoutant des espaces pour un alignement parfait. Des exemples sont fournis dans <code>input.txt</code> et <code>output.txt</code> pour illustrer la justification.</p>
+<hr>
+<h3 id="%E2%9A%99%EF%B8%8F-technologies-utilis%C3%A9es">⚙️ Technologies Utilisées</h3>
+<ul>
+<li><strong><a href="https://nodejs.org/">Node.js</a></strong> : Environnement JavaScript côté serveur.</li>
+<li><strong><a href="https://www.typescriptlang.org/">TypeScript</a></strong> : Superset de JavaScript ajoutant des types statiques pour une meilleure gestion des erreurs.</li>
+<li><strong><a href="https://expressjs.com/">Express</a></strong> : Framework pour construire des API RESTful.</li>
+<li><strong><a href="https://jwt.io/">JSON Web Tokens (JWT)</a></strong> : Utilisé pour sécuriser les endpoints via l'authentification par token.</li>
+<li><strong><a href="https://github.com/motdotla/dotenv">dotenv</a></strong> : Gère les variables d'environnement pour une configuration sécurisée.</li>
+<li><strong><a href="https://jestjs.io/">Jest</a></strong> : Framework de test pour tester les fonctionnalités de l'API.</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%8F%97%EF%B8%8F-structure-du-projet-et-concepts-avanc%C3%A9s">🏗️ Structure du Projet et Concepts Avancés</h3>
+<p>Ce projet utilise une architecture modulaire, mettant en avant plusieurs concepts avancés en <strong>Programmation Orientée Objet (OOP)</strong> et en développement backend.</p>
+<h4 id="d%C3%A9corateurs">Décorateurs</h4>
+<p>Les <strong>décorateurs</strong> sont utilisés pour améliorer la lisibilité et la modularité du code. Par exemple :</p>
+<ul>
+<li><code>@POST</code> : Décorateur pour définir une méthode comme une route POST.</li>
+<li><code>TimitWordList</code> : Middleware pour limiter le nombre de mots quotidiens autorisés par token.</li>
+<li><strong>Exemple de Décorateur</strong> : <code>TimeWordList</code>, qui gère les limites quotidiennes des mots par token utilisateur.</li>
+</ul>
+<p><img src="./img/decorators/TimeWorList-Decorator.png" alt="TimeWordList Decorator"></p>
+<h4 id="gestion-derreurs-globale">Gestion d'erreurs globale</h4>
+<p>Une gestion d'erreurs centralisée est implémentée pour capturer toutes les erreurs et retourner des réponses cohérentes au client.</p>
+<h4 id="middleware-de-s%C3%A9curit%C3%A9">Middleware de sécurité</h4>
+<p>Utilisation de bibliothèques comme <strong>Helmet</strong> et <strong>Rate Limit</strong> pour sécuriser l'application contre les attaques courantes.</p>
+<h4 id="architecture-modulaire">Architecture modulaire</h4>
+<p>Le code est organisé de manière modulaire pour permettre une meilleure maintenabilité. Voici une capture de l’architecture du projet dans Visual Studio Code :</p>
+<p><img src="./img/arc/archi.jpg" alt="Architecture VSCode"></p>
+<pre class="hljs"><code><div>justify-text-server/
+├── .env.example
+├── img/
+│   ├── justify/
+│   │   ├── TERMINAL.png
+│   │   └── POSTMAN.png
+│   ├── token/
+│   │   ├── TERMINAL.png
+│   │   └── POSTMAN.png
+│   └── decorators/
+│       └── TimeWorList-Decorator.png
+├── src/
+│   ├── Controllers/
+│   │   └── index.ts
+│   ├── Decorators/
+│   │   ├── body-validator.decorator.ts
+│   │   ├── controller.decorator.ts
+│   │   ├── route.decorator.ts
+│   │   ├── throttle.decorator.ts
+│   │   └── timit-words.ts
+│   ├── Helpers/
+│   │   └── index.ts
+│   ├── Interfaces/
+│   ├── Logs/
+│   ├── Settings/
+│   │   └── index.ts
+│   ├── application.ts
+│   ├── index.ts
+│   └── server.ts
+├── tests/
+├── input.txt
+├── output.txt
+├── jest.config.js
+├── package.json
+├── README.md
+├── tsconfig.json
+└── yarn.lock
+</div></code></pre>
+<h3 id="explication-de-la-structure">Explication de la Structure</h3>
+<ul>
+<li><strong>img/</strong> : Contient les captures d'écran des tests et de l'architecture pour la documentation, organisées par catégorie.</li>
+<li><strong>src/</strong> : Dossier source principal pour les fichiers TypeScript du serveur.
+<ul>
+<li><strong>Controllers/</strong> : Logique de traitement des requêtes HTTP.</li>
+<li><strong>Decorators/</strong> : Contient les décorateurs utilisés pour ajouter des fonctionnalités aux routes (par ex., <code>TimeWordList</code>, validation).</li>
+<li><strong>Helpers/</strong> : Fonctions d'assistance et utilitaires.</li>
+<li><strong>Interfaces/</strong> : Définitions d'interfaces TypeScript pour des structures de données.</li>
+<li><strong>Logs/</strong> : Gestion des logs de l'application.</li>
+<li><strong>Settings/</strong> : Configuration et réglages de l'application.</li>
+<li><strong>index.ts</strong> : Point d'entrée principal du serveur.</li>
+<li><strong>application.ts</strong> et <strong>server.ts</strong> : Fichiers principaux pour configurer et démarrer l'application Express.</li>
+</ul>
+</li>
+<li><strong>tests/</strong> : Dossier contenant les tests de l'application.</li>
+<li><strong>input.txt</strong> et <strong>output.txt</strong> : Exemples de fichiers d'entrée et de sortie pour la justification de texte.</li>
+<li><strong>jest.config.js</strong> : Configuration de Jest pour les tests.</li>
+<li><strong>tsconfig.json</strong> : Configuration TypeScript pour le projet.</li>
+</ul>
+<hr>
+<h3 id="%F0%9F%93%B8-exemple-dutilisation">📸 Exemple d'utilisation</h3>
+<ol>
+<li><strong>Générer un token</strong> avec l'endpoint <code>/api/token</code>.</li>
+<li><strong>Justifier un texte</strong> avec l'endpoint <code>/api/justify</code>, en incluant le token généré dans l’en-tête de la requête.</li>
+</ol>
+
+</body>
+</html>
